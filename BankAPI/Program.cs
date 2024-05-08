@@ -27,7 +27,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IAccountService, TransferService>();
+builder.Services.AddScoped<ITransferService, TransferService>();
 
 var app = builder.Build();
 

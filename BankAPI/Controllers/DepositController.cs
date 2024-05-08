@@ -24,7 +24,7 @@ namespace BankAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(WithdrawlOrDepositResponseDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> DepositMoney([FromRoute] int accountId, [FromBody] WithdrawlOrDepositRequestDto withdrawlOrDepositRequestDto)
+        public async Task<IActionResult> Deposit([FromRoute] int accountId, [FromBody] WithdrawlOrDepositRequestDto withdrawlOrDepositRequestDto)
         {
             if (!ModelState.IsValid)
             {

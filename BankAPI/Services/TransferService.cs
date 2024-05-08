@@ -16,7 +16,7 @@ namespace BankAPI.Services
             _bankDbContext = bankDbContext;
         }
         
-        public async Task<Transaction> TransferMoneyAsync(int fromAccountId, TransferRequestDto transferRequestDto)
+        public async Task<Transaction> TransferAsync(int fromAccountId, TransferRequestDto transferRequestDto)
         {
             var fromAccount = await _bankDbContext.Accounts.FirstOrDefaultAsync(x => x.AccountId == fromAccountId); 
 

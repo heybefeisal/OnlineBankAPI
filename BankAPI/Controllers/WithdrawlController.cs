@@ -9,36 +9,36 @@ namespace BankAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransferController : ControllerBase
+    public class WithdrawlController : ControllerBase
     {
-        private readonly ITransferService _transferService;
+        private readonly IAccountService _accountservice;
         private readonly IMapper _mapper;
 
-        public TransferController(ITransferService transferService, IMapper mapper)
+        public WithdrawlController(IAccountService accountService, IMapper mapper)
         {
-            _transferService = transferService;
+            _accountservice = accountService;
             _mapper = mapper;
         }
 
-        [HttpPost("{fromAccountId}")]
+        [HttpPut("{accountId}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        [ProducesResponseType(typeof(TransferResponseDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Transfer([FromRoute] int fromAccountId, [FromBody] TransferRequestDto transactionRequestDto)
+        [ProducesResponseType(typeof(WithdrawlOrDepositResponseDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Withdrawl([FromRoute] int accountId, [FromBody] WithdrawlOrDepositRequestDto withdrawlOrDepositRequestDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var transfer = await _transferService.TransferAsync(fromAccountId, transactionRequestDto);
+            var withdrawl = await _accountservice.WithdrawlAsync(accountId, withdrawlOrDepositRequestDto);
 
-            if (transfer == null)
+            if (withdrawl == null)
             {
                 return UnprocessableEntity();
             }
 
-            var mappedResult = _mapper.Map<TransferResponseDto>(transfer);
+            var mappedResult = _mapper.Map<WithdrawlOrDepositResponseDto>(withdrawl);
             return Ok(mappedResult);
         }
     }

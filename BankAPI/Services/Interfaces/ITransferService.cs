@@ -6,7 +6,7 @@ namespace BankAPI.Services.Interfaces
 {
     public interface ITransferService
     {
-        Task<Transaction> TransferMoneyAsync(int FromAccountId, TransferRequestDto transactionRequestDto);
+        Task<Transaction> TransferAsync(int FromAccountId, TransferRequestDto transactionRequestDto);
 
     }
 }
