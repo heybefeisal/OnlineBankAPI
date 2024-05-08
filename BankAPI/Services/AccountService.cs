@@ -28,13 +28,6 @@ namespace BankAPI.Services
                 return null;
             }
 
-            //var accountExists = AccountExistsAsync(accountRequestDto.AccountNumber);
-
-            //if(accountExists == null)
-            //{
-            //    throw new Exception("Account Exists");
-            //}
-
             var account = new Account
             {
                 UserId = userId,
@@ -49,16 +42,53 @@ namespace BankAPI.Services
 
         }
 
-        //public async Task<Account> AccountExistsAsync(string accountNumber)
-        //{
-        //    var account = await _bankDbContext.Accounts.FirstOrDefaultAsync(x => x.AccountNumber == accountNumber);
+        public async Task<Transaction> DepositAsync(int accountId, WithdrawlOrDepositRequestDto withdrawlOrDepositRequestDto)
+        {
+            var account = await _bankDbContext.Accounts.FirstOrDefaultAsync(x => x.AccountId == accountId);
+            if (account == null)
+            {
+                return null;
+            }
 
-        //    if (account == null)
-        //    {
-        //        return null;
-        //    }
+            var deposit = new Transaction
+            {
+                ToAccountId = accountId,
+                FromAccountId = accountId,
+                Amount = withdrawlOrDepositRequestDto.Amount,
+                TransactionDate = DateTime.UtcNow,
+            };
 
-        //    return account;
-        //}
+            account.Balance += withdrawlOrDepositRequestDto.Amount;
+            _bankDbContext.Entry(account).State = EntityState.Modified;
+
+            await _bankDbContext.AddAsync(deposit);
+            await _bankDbContext.SaveChangesAsync();
+            return deposit;
+        }
+
+        public async Task<Transaction> WithdrawlAsync(int accountId, WithdrawlOrDepositRequestDto withdrawlOrDepositRequestDto)
+        {
+            var account = await _bankDbContext.Accounts.FirstOrDefaultAsync(x => x.AccountId == accountId);
+            if (account == null)
+            {
+                return null;
+            }
+
+            var withdrawl = new Transaction
+            {
+                ToAccountId = accountId,
+                FromAccountId = accountId,
+                Amount = withdrawlOrDepositRequestDto.Amount,
+                TransactionDate = DateTime.UtcNow,
+            };
+
+            account.Balance -= withdrawlOrDepositRequestDto.Amount;
+            _bankDbContext.Entry(account).State = EntityState.Modified;
+
+            await _bankDbContext.AddAsync(withdrawl);
+            await _bankDbContext.SaveChangesAsync();
+            return withdrawl;
+        }
+
     }
 }

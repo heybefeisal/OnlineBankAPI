@@ -7,62 +7,15 @@ using Transaction = BankAPI.Models.Transaction;
 
 namespace BankAPI.Services
 {
-    public class TransactionService : ITransactionService
+    public class TransferService : ITransferService
     {
         private readonly BankDbContext _bankDbContext;
 
-        public TransactionService(BankDbContext bankDbContext)
+        public TransferService(BankDbContext bankDbContext)
         {
             _bankDbContext = bankDbContext;
         }
-        public async Task<Transaction> DepositMoneyAsync(int accountId, WithdrawlOrDepositRequestDto withdrawlOrDepositRequestDto)
-        {
-            var account = await _bankDbContext.Accounts.FirstOrDefaultAsync(x => x.AccountId == accountId);
-            if(account == null) 
-            {
-                return null;
-            }
-            
-            var deposit = new Transaction
-            {
-                ToAccountId = accountId,
-                FromAccountId = accountId,
-                Amount = withdrawlOrDepositRequestDto.Amount,
-                TransactionDate = DateTime.UtcNow,
-            };
-
-            account.Balance += withdrawlOrDepositRequestDto.Amount;
-            _bankDbContext.Entry(account).State = EntityState.Modified;
-
-            await _bankDbContext.AddAsync(deposit);
-            await _bankDbContext.SaveChangesAsync();
-            return deposit;
-        }
-
-        public async Task<Transaction> WithdrawlMoneyAsync(int accountId, WithdrawlOrDepositRequestDto withdrawlOrDepositRequestDto)
-        {
-            var account = await _bankDbContext.Accounts.FirstOrDefaultAsync(x => x.AccountId == accountId);
-            if (account == null)
-            {
-                return null;
-            }
-
-            var withdrawl = new Transaction
-            {
-                ToAccountId = accountId,
-                FromAccountId = accountId,
-                Amount = withdrawlOrDepositRequestDto.Amount,
-                TransactionDate = DateTime.UtcNow,
-            };
-
-            account.Balance -= withdrawlOrDepositRequestDto.Amount;
-            _bankDbContext.Entry(account).State = EntityState.Modified;
-
-            await _bankDbContext.AddAsync(withdrawl);
-            await _bankDbContext.SaveChangesAsync();
-            return withdrawl;
-        }
-
+        
         public async Task<Transaction> TransferMoneyAsync(int fromAccountId, TransferRequestDto transferRequestDto)
         {
             var fromAccount = await _bankDbContext.Accounts.FirstOrDefaultAsync(x => x.AccountId == fromAccountId); 
