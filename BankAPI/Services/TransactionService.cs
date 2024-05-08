@@ -7,11 +7,11 @@ using Transaction = BankAPI.Models.Transaction;
 
 namespace BankAPI.Services
 {
-    public class TransferService : ITransactionService
+    public class TransactionService : ITransactionService
     {
         private readonly BankDbContext _bankDbContext;
 
-        public TransferService(BankDbContext bankDbContext)
+        public TransactionService(BankDbContext bankDbContext)
         {
             _bankDbContext = bankDbContext;
         }
