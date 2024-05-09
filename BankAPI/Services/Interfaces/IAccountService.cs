@@ -7,7 +7,7 @@ namespace BankAPI.Services.Interfaces
     {
         Task<Account> CreateAccountAsync(int userId, AccountRequestDto accountRequestDto);
 
-        Task<Decimal?> GetBalanceAsync(int accountId);
+        Task<Decimal?> GetBalanceAsync(int userId, int accountId);
         Task<Transaction> DepositAsync(int accountId, WithdrawlOrDepositRequestDto withdrawlOrDepositRequestDto);
         Task<Transaction> WithdrawlAsync(int accountId, WithdrawlOrDepositRequestDto withdrawlOrDepositRequestDto);
         Task<bool> IsPrivateAccount(int accountId);

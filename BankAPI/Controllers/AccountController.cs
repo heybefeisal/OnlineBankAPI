@@ -42,12 +42,12 @@ namespace BankAPI.Controllers
             return Ok(mappedResult);
         }
 
-        [HttpGet("Get Balance{accountId}")]
+        [HttpGet("Get Balance/{userId}/{accountId}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetBalance([FromRoute] int accountId)
+        public async Task<IActionResult> GetBalance([FromRoute] int userId, [FromRoute] int accountId)
         {
-            var balance = await _accountService.GetBalanceAsync(accountId);
+            var balance = await _accountService.GetBalanceAsync(userId, accountId);
 
             if(balance == null)
             {

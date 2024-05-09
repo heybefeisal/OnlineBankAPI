@@ -19,9 +19,9 @@ namespace BankAPI.Services
             _userService = userService;
         }
 
-        public async Task<Decimal?> GetBalanceAsync(int accountId)
+        public async Task<Decimal?> GetBalanceAsync(int userId, int accountId)
         {
-            var account = await _bankDbContext.Accounts.FirstOrDefaultAsync(x => x.AccountId == accountId);
+            var account = await _bankDbContext.Accounts.FirstOrDefaultAsync( x=> x.UserId == userId && x.AccountId == accountId);
 
             if (account == null)
             {
