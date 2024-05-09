@@ -48,6 +48,11 @@ namespace BankAPI.Services
                 return null;
             }
 
+            if (await UserHasPrivateAccount(userId))
+            {
+                throw new Exception("Private account exists");
+            }
+
             var account = new Account
             {
                 UserId = userId,
@@ -94,6 +99,11 @@ namespace BankAPI.Services
                 return null;
             }
 
+            if(await IsPrivateAccount(accountId) == false)
+            {
+                throw new Exception("Withdrawl error. Withdrawl only from private account");
+            }
+                
             var withdrawl = new Transaction
             {
                 ToAccountId = accountId,
@@ -108,6 +118,22 @@ namespace BankAPI.Services
             await _bankDbContext.AddAsync(withdrawl);
             await _bankDbContext.SaveChangesAsync();
             return withdrawl;
+        }
+
+        public async Task<bool> IsPrivateAccount(int accountId)
+        {
+            var account = await _bankDbContext.Accounts.FirstOrDefaultAsync(x => x.AccountId == accountId);
+
+            if(account != null)
+            {
+                return account.AccountType == "Private";
+            }
+            return false; // Account does not exist or not private
+        }
+
+        public async Task<bool> UserHasPrivateAccount(int userId)
+        {
+            return await _bankDbContext.Accounts.AnyAsync(x => x.UserId == userId && x.AccountType == "Private");
         }
 
     }

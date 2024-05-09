@@ -10,6 +10,8 @@ namespace BankAPI.Services.Interfaces
         Task<Decimal?> GetBalanceAsync(int accountId);
         Task<Transaction> DepositAsync(int accountId, WithdrawlOrDepositRequestDto withdrawlOrDepositRequestDto);
         Task<Transaction> WithdrawlAsync(int accountId, WithdrawlOrDepositRequestDto withdrawlOrDepositRequestDto);
+        Task<bool> IsPrivateAccount(int accountId);
+        Task<bool> UserHasPrivateAccount(int userId);
 
     }
 }
