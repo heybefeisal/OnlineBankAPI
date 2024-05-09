@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Security.Principal;
 
 namespace BankAPI.UnitTests
 {
@@ -128,7 +129,7 @@ namespace BankAPI.UnitTests
             {
                 await accountService.CreateAccountAsync(userId, accountRequestDto);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 caughtException = ex;
             }
@@ -160,6 +161,55 @@ namespace BankAPI.UnitTests
 
             //Act
             var result = await accountService.CreateAccountAsync(userId, accountRequestDto);
+
+            //Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public async Task DepositAsync_ReturnsTransaction_WhenAccountExists() //DepositAsync
+        {
+            var accountId = 1;
+            var amount = 100;
+            var withdrawlRequestDto = new WithdrawlOrDepositRequestDto { Amount = amount };
+
+            var account = new Account { AccountId = accountId, Balance = 500 };
+            var mockDbSet = new Mock<DbSet<Account>>();
+            mockDbSet.Setup(x => x.FindAsync(It.IsAny<object[]>())).ReturnsAsync(account);
+
+            var mockDbContext = new Mock<BankDbContext>();
+            mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
+            mockDbContext.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
+
+            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+
+            //Act
+            var result = await accountService.DepositAsync(accountId, withdrawlRequestDto);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(accountId, result.ToAccountId);
+            Assert.AreEqual(accountId, result.FromAccountId);
+            Assert.AreEqual(amount, result.Amount);
+        }
+
+        [TestMethod]
+        public async Task DepositAsync_ReturnsNull_WhenAccountDoesNotExist()
+        {
+            var accountId = 1;
+            var amount = 100;
+            var withdrawlRequestDto = new WithdrawlOrDepositRequestDto { Amount = amount };
+
+            var mockDbSet = new Mock<DbSet<Account>>();
+            mockDbSet.Setup(x => x.FindAsync(It.IsAny<object[]>())).ReturnsAsync((Account)null);
+
+            var mockDbContext = new Mock<BankDbContext>();
+            mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
+
+            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+
+            //Act
+            var result = await accountService.DepositAsync(accountId, withdrawlRequestDto);
 
             //Assert
             Assert.IsNull(result);
