@@ -106,7 +106,7 @@ namespace BankAPI.UnitTests
             var accountRequestDto = new AccountRequestDto
             {
                 AccountNumber = "123412321",
-                AccountType = "Spar",
+                AccountType = "Private",
                 Balance = 1000
             };
 
@@ -194,7 +194,7 @@ namespace BankAPI.UnitTests
         }
 
         [TestMethod]
-        public async Task DepositAsync_ReturnsNull_WhenAccountDoesNotExist()
+        public async Task DepositAsync_ReturnsNull_WhenAccountDoesNotExist() //DepositAsync
         {
             var accountId = 1;
             var amount = 100;
@@ -213,6 +213,94 @@ namespace BankAPI.UnitTests
 
             //Assert
             Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public async Task WithdrawlAsync_ReturnsTransaction_WhenAccountExistsAndIsPrivate() //WithdrawlAsync
+        {
+            //Arrange
+            var accountId = 1;
+            var amount = 100;
+            var withdrawlRequestDto = new WithdrawlOrDepositRequestDto { Amount = amount };
+
+            var account = new Account { AccountId = accountId, Balance = 500, AccountType = "Private" };
+
+            var mockDbSet = new Mock<DbSet<Account>>();
+            mockDbSet.Setup(x => x.FindAsync(It.IsAny<object[]>())).ReturnsAsync(account);
+
+            var mockDbContext = new Mock<BankDbContext>();
+            mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
+            mockDbContext.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
+
+            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+
+            //Act
+            var result = await accountService.WithdrawlAsync(accountId, withdrawlRequestDto);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(accountId, result.ToAccountId);
+            Assert.AreEqual(accountId, result.FromAccountId);
+            Assert.AreEqual(amount, result.Amount);
+        }
+
+        [TestMethod]
+        public async Task WithdrawlAsync_ReturnsNull_WhenAccountDoesNotExist() //WithdrawlAsync
+        {
+            //Arrange
+            var accountId = 1;
+            var amount = 100;
+            var withdrawlRequestDto = new WithdrawlOrDepositRequestDto { Amount = amount };
+
+            var account = new Account { AccountId = accountId, Balance = 500 };
+
+            var mockDbSet = new Mock<DbSet<Account>>();
+            mockDbSet.Setup(x => x.FindAsync(It.IsAny<object[]>())).ReturnsAsync((Account)null);
+
+            var mockDbContext = new Mock<BankDbContext>();
+            mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
+
+            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+
+            //Act
+            var result = await accountService.WithdrawlAsync(accountId, withdrawlRequestDto);
+
+            //Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public async Task WithdrawlAsync_ThrowsException_WhenAccountIsNotPrivate() //WithdrawlAsync
+        {
+            //Arrange
+            var accountId = 1;
+            var amount = 100;
+            var withdrawlRequestDto = new WithdrawlOrDepositRequestDto { Amount = amount };
+
+            var account = new Account { AccountId = accountId, Balance = 500, AccountType = "Spar" };
+
+            var mockDbSet = new Mock<DbSet<Account>>();
+            mockDbSet.Setup(x => x.FindAsync(It.IsAny<object[]>())).ReturnsAsync((account));
+
+            var mockDbContext = new Mock<BankDbContext>();
+            mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
+
+            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+
+            //Act
+            Exception caughtException = null;
+            try 
+            {
+                await accountService.WithdrawlAsync(accountId, withdrawlRequestDto);
+            }
+            catch (Exception ex) 
+            {
+                caughtException = ex;
+            }
+
+            //Assert
+            Assert.IsNotNull(caughtException);
+            Assert.AreEqual("Withdrawal only from private account", caughtException);
         }
     }
 }
