@@ -31,7 +31,7 @@ namespace BankAPI.UnitTests
             var mockDbContext = new Mock<BankDbContext>();
             mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
 
-            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+            var accountService = new AccountService(_mapper, mockDbContext.Object);
 
             //Act 
             var result = await accountService.GetBalanceAsync(userId, accountId);
@@ -53,7 +53,7 @@ namespace BankAPI.UnitTests
             var mockDbContext = new Mock<BankDbContext>();
             mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
 
-            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+            var accountService = new AccountService(_mapper, mockDbContext.Object);
 
             //Act
             var result = await accountService.GetBalanceAsync(userId, accountId);
@@ -157,7 +157,7 @@ namespace BankAPI.UnitTests
             var mockDbContext = new Mock<BankDbContext>();
             mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
 
-            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+            var accountService = new AccountService(_mapper, mockDbContext.Object);
 
             //Act
             var result = await accountService.CreateAccountAsync(userId, accountRequestDto);
@@ -181,7 +181,7 @@ namespace BankAPI.UnitTests
             mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
             mockDbContext.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
-            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+            var accountService = new AccountService(_mapper, mockDbContext.Object);
 
             //Act
             var result = await accountService.DepositAsync(accountId, withdrawlRequestDto);
@@ -206,7 +206,7 @@ namespace BankAPI.UnitTests
             var mockDbContext = new Mock<BankDbContext>();
             mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
 
-            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+            var accountService = new AccountService(_mapper, mockDbContext.Object);
 
             //Act
             var result = await accountService.DepositAsync(accountId, withdrawlRequestDto);
@@ -232,7 +232,7 @@ namespace BankAPI.UnitTests
             mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
             mockDbContext.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
-            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+            var accountService = new AccountService(_mapper, mockDbContext.Object);
 
             //Act
             var result = await accountService.WithdrawlAsync(accountId, withdrawlRequestDto);
@@ -260,7 +260,7 @@ namespace BankAPI.UnitTests
             var mockDbContext = new Mock<BankDbContext>();
             mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
 
-            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+            var accountService = new AccountService(_mapper, mockDbContext.Object);
 
             //Act
             var result = await accountService.WithdrawlAsync(accountId, withdrawlRequestDto);
@@ -285,7 +285,7 @@ namespace BankAPI.UnitTests
             var mockDbContext = new Mock<BankDbContext>();
             mockDbContext.Setup(x => x.Accounts).Returns(mockDbSet.Object);
 
-            var accountService = new AccountService(_mapper, mockDbContext.Object, null);
+            var accountService = new AccountService(_mapper, mockDbContext.Object);
 
             //Act
             Exception caughtException = null;
