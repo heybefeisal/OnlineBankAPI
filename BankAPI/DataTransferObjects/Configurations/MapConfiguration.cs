@@ -9,11 +9,11 @@ namespace BankAPI.DataTransferObjects.Configurations
     {
         public MapConfiguration()
         {
-            CreateMap<User, UserResponseDto>();
-            CreateMap<UserResponseDto, User>();
+            CreateMap<User, RegisterResponseDto>();
+            CreateMap<RegisterResponseDto, User>();
 
-            CreateMap<UserRequestDto, User>();
-            CreateMap<User, UserRequestDto>();
+            CreateMap<RegisterRequestDto, User>();
+            CreateMap<User, RegisterRequestDto>();
 
             CreateMap<Account, AccountResponseDto>();
             CreateMap<AccountResponseDto, Account>();

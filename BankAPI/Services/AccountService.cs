@@ -10,13 +10,11 @@ namespace BankAPI.Services
     {
         private readonly IMapper _mapper;
         private readonly BankDbContext _bankDbContext;
-        private readonly IUserService _userService;
 
-        public AccountService(IMapper mapper, BankDbContext bankDbContext, IUserService userService)
+        public AccountService(IMapper mapper, BankDbContext bankDbContext)
         {
             _mapper = mapper;
             _bankDbContext = bankDbContext;
-            _userService = userService;
         }
 
         public async Task<Decimal?> GetBalanceAsync(int userId, int accountId)
