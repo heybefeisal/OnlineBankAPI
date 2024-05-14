@@ -2,13 +2,17 @@
 using BankAPI.Models;
 using BankAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BankAPI.UnitTests
+namespace BankAPI.Test.UnitTests
 {
     [TestClass]
-    public class TransferServiceUnitTest: UnitTestBase
+    public class TransferServiceUnitTest
     {
         [TestMethod]
         public async Task TransferAsyc_ReturnTransaction_WhenTransferIsSuccessful()
@@ -85,3 +89,4 @@ namespace BankAPI.UnitTests
         }
     }
 }
+

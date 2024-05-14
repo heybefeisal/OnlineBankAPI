@@ -1,0 +1,7 @@
+C:\Users\heybe\OneDrive\Dokument\GitHub\OnlineBankAPI\BankAPITest\BankAPI.Test\bin\Debug\net8.0\CoverletSourceRootsMapping_BankAPI.Test
+C:\Users\heybe\OneDrive\Dokument\GitHub\OnlineBankAPI\BankAPITest\BankAPI.Test\obj\Debug\net8.0\BankAPI.Test.csproj.AssemblyReference.cache
+C:\Users\heybe\OneDrive\Dokument\GitHub\OnlineBankAPI\BankAPITest\BankAPI.Test\obj\Debug\net8.0\BankAPI.Test.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\heybe\OneDrive\Dokument\GitHub\OnlineBankAPI\BankAPITest\BankAPI.Test\obj\Debug\net8.0\BankAPI.Test.AssemblyInfoInputs.cache
+C:\Users\heybe\OneDrive\Dokument\GitHub\OnlineBankAPI\BankAPITest\BankAPI.Test\obj\Debug\net8.0\BankAPI.Test.AssemblyInfo.cs
+C:\Users\heybe\OneDrive\Dokument\GitHub\OnlineBankAPI\BankAPITest\BankAPI.Test\obj\Debug\net8.0\BankAPI.Test.csproj.CoreCompileInputs.cache
+C:\Users\heybe\OneDrive\Dokument\GitHub\OnlineBankAPI\BankAPITest\BankAPI.Test\obj\Debug\net8.0\BankAPI.Test.sourcelink.json

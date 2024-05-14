@@ -2,6 +2,7 @@
 using BankAPI.DataTransferObjects.RequestDtos;
 using BankAPI.DataTransferObjects.ResponseDtos;
 using BankAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace BankAPI.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpPost("{accountId}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
