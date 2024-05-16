@@ -6,6 +6,7 @@
 # dotenv files
 .env
 
+BankApiTest\BankApiTest\Bin
 # User-specific files
 *.rsuser
 *.suo
@@ -15,6 +16,7 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+
 
 # Mono auto generated files
 mono_crash.*
@@ -482,3 +484,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+
+.docker-compose.yml

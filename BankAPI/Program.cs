@@ -6,7 +6,6 @@ using BankAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,6 +48,7 @@ builder.Services.AddDbContext<BankDbContext>(
     options => options.UseSqlServer("name=ConnectionsStrings:DefaultConnection"));
 builder.Services.AddAutoMapper(typeof(Program));
 
+
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITransferService, TransferService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -70,3 +70,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
